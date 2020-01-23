@@ -95,7 +95,7 @@ class EtlAccionDeAnuncio(EtlAccionDeAnuncioABS):
         detalle_de_anuncios['data_date_part'] = Util.obt_fecha_actual()
         self.anuncios = Util.pandas_a_spark(self.sql_context, detalle_de_anuncios)
         # Registro de funciones UDF
-        self.sql_context.udf.register("excluye_carac_espec", lambda x: excluye_carac_espec(x))
+        self.sql_context.udf.register("excluye_carac_espec", lambda x: elimina_carac_especial(x))
         self.sql_context.udf.register("obt_nom_atributo", lambda x: obt_nom_atributo(x))
         self.sql_context.udf.register("obt_val_atributo", lambda x: obt_val_atributo(x))
 
@@ -111,7 +111,8 @@ class EtlAccionDeAnuncio(EtlAccionDeAnuncioABS):
                     df_acciones.AD_ID,
                     df_acciones.ATRIBUTO.alias('ACTION'),
                     df_acciones.VALOR.alias('VALUE'),
-                    df_costo_de_acciones.VALOR.alias("COST_VALUE"))
+                    df_costo_de_acciones.VALOR.alias("COST_VALUE")).\
+            withColumn('DATA_DATE_PART', lit(Util.obt_fecha_actual()))
 
         self.acciones_y_costos_de_anuncios.show()
 
@@ -124,7 +125,7 @@ class EtlAccionDeAnuncio(EtlAccionDeAnuncioABS):
 # ################
 
 
-def excluye_carac_espec(cadena_no_higenizada):
+def elimina_carac_especial(cadena_no_higenizada):
     cadena_higenizada = cadena_no_higenizada.replace('[', '').\
                                              replace(']', '').\
                                              replace('{', '').\
