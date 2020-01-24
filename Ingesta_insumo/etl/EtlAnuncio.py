@@ -45,7 +45,6 @@ class EtlAnuncio(Etl.EtlFacebookAbs):
     @Log.logger('Transformacion')
     def transforma(self):
         self.detalle_de_anuncios = self.limpieza_de_anuncios()
-        self.detalle_de_anuncios.coalesce(1).write.format("com.databricks.spark.csv").save('anuncios_24_dic.csv', header='true')
 
     @Log.logger('Carga')
     def carga(self):

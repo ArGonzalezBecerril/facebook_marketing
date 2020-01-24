@@ -99,7 +99,7 @@ def remueve_carac_especiales(dataframe, caracteres=',|\\t|\\n|\\r|\\|\\"|\\/|\"'
 
 def obt_fecha_actual():
     fecha_hoy = fec.date.today()
-    fecha_con_formato = fecha_hoy.strftime('%Y-%m-%d %H:%M:%S')
+    fecha_con_formato = fecha_hoy.strftime('%Y-%m-%d')
     return str(fecha_con_formato)
 
 

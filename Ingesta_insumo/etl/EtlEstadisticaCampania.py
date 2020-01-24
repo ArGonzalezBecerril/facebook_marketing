@@ -44,7 +44,6 @@ class EtlEstadisticoCampania(Etl.EtlFacebookAbs):
     @Log.logger('Transformacion')
     def transforma(self):
         self.df_datos_estadisticos = self.limpia_detalle_de_campanias()
-        self.df_datos_estadisticos.show()
 
     @Log.logger('Carga')
     def carga(self):

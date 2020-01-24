@@ -10,7 +10,7 @@ import dao.facebook.DaoExtraccionProp as DaoProp
 from datetime import datetime, timedelta
 
 
-calculo_de_fecha = datetime.today() - timedelta(days=24)
+calculo_de_fecha = datetime.today() - timedelta(days=40)
 print (calculo_de_fecha)
 
 
@@ -29,9 +29,9 @@ class DAOCampania(AdminDao.DAOCampaniaAbs):
     def construye_url(self):
         id_cuenta = self.dto_credenciales.id_cuenta + "/"
         atributos_campania = "campaigns?fields=id,name,status,insights{reach,impressions,clicks},can_use_spend_cap," \
-                             "configured_status,created_time,daily_budget,effective_status,last_budget_toggling_time," \
-                             "lifetime_budget,objective,pacing_type,promoted_object,recommendations,source_campaign," \
-                             "source_campaign_id,special_ad_category,spend_cap,start_time,topline_id,updated_time"
+                             "configured_status,created_time,daily_budget,effective_status," \
+                             "lifetime_budget,objective,pacing_type,promoted_object,source_campaign," \
+                             "source_campaign_id,spend_cap,start_time,topline_id,last_budget_toggling_time"
         rango_de_fechas = "&time_range[since]=" + self.fecha + "&time_range[until]=" + self.fecha + "&limit=200"
         token_de_acceso = "&access_token=" + self.dto_credenciales.token_de_acceso
 

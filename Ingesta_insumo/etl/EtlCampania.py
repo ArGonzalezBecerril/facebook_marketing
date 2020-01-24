@@ -17,7 +17,7 @@ class EtlCampania(Etl.EtlFacebookAbs):
     def __init__(self, dto_credenciales, sql_context):
         self.sql_context = sql_context
         self.dto_credenciales = dto_credenciales
-        self.detalle_de_campanias = ''
+        self.detalle_de_campanias = None
         self.df_sp_detalle_de_campanias = None
 
     def valida_atributo(self, dato):
@@ -44,7 +44,6 @@ class EtlCampania(Etl.EtlFacebookAbs):
     @Log.logger('Transformacion')
     def transforma(self):
         self.df_sp_detalle_de_campanias = self.limpia_detalle_de_campanias()
-        self.df_sp_detalle_de_campanias.show()
 
     @Log.logger('Carga')
     def carga(self):
