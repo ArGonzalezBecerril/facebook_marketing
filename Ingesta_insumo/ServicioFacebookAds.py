@@ -4,6 +4,7 @@ import etl.EtlEstadisticaCampania as EtlCampEst
 import etl.EtlAnuncio as EtlAnun
 import etl.EtlEstadisticaAnuncio as EtlEstAnun
 import etl.EtlAccionDeAnuncio as EtlAccion
+import etl.EtlAnunciosReporte as Etlrep
 import sys
 import pyspark as pspk
 import pyspark.sql as pysql
@@ -20,19 +21,18 @@ sql_context = pysql.SQLContext(context)
 dto_logger = Log.Logger('', '', 'Script_Campanias', '', '')
 
 dto_credenciales = Dto.DtoCredenciales(id_cuenta='act_804059193122922',
-                                       token_de_acceso='EAAFqYKPZBGTwBAESZB1MgH3tnZCBt0Ny4LRQ8OhbL'
-                                                       'sEgXvW7hDddhlHsHUqnrlu3KDlIII7qPgr501HZCJQQuZBK8z'
-                                                       'vMQegVrBiTB1IILpOI1YYMLd8b5dp25ZCvd7yNZAukSioGZCyH'
-                                                       'ADl4XE331SRUSZB275Dgav9uXpqfTtMLlbwZDZD',
+                                       token_de_acceso='EAAFqYKPZBGTwBAJSHoktCxD1IHAn0tsl9I3iATCrLWb0aol1cUmq5Bfg1TKqWW'
+                                                       'SIJccxb2kxtN7HubCQ32rLCN50nzddGPbh1rtJmsbdFgGcD6n4jHWb1IqSINZC'
+                                                       'GGFgZBRJYGJAjqUfQpAXkmtd4dZCwZCEGDHicZBpj5dZCMgYgZDZD',
                                        id_usuario='',
                                        id_app='',
                                        id_pagina='',
                                        app_secreta='')
 
 
-campania = EtlCamp.EtlCampania(dto_credenciales, sql_context)
-campania.extrae()
-campania.transforma()
+etl_campania = EtlCamp.EtlCampania(dto_credenciales, sql_context)
+etl_campania.extrae()
+etl_campania.transforma()
 #campania.carga()
 
 #estadistico_campania = EtlCampEst.EtlEstadisticoCampania(dto_credenciales, sql_context)
@@ -40,18 +40,20 @@ campania.transforma()
 #estadistico_campania.transforma()
 #estadistico_campania.carga()
 
-#anuncio = EtlAnun.EtlAnuncio(dto_credenciales, sql_context)
-#anuncio.extrae()
-#anuncio.transforma()
+etl_anuncio = EtlAnun.EtlAnuncio(dto_credenciales, sql_context)
+etl_anuncio.extrae()
+etl_anuncio.transforma()
 #anuncio.carga()
 
-
-#estadistico_anuncio = EtlEstAnun.EtlEstadisticaAnuncio(dto_credenciales, sql_context)
-#estadistico_anuncio.extrae()
-#estadistico_anuncio.transforma()
+etl_estadistico_anuncios = EtlEstAnun.EtlEstadisticaAnuncio(dto_credenciales, sql_context)
+etl_estadistico_anuncios.extrae()
+etl_estadistico_anuncios.transforma()
 #estadistico_anuncio.carga()
 
-#acciones_de_anuncios = EtlAccion.EtlAccionDeAnuncio(dto_credenciales, sql_context)
+acciones_de_anuncios = EtlAccion.EtlAccionDeAnuncio(dto_credenciales, sql_context)
 #acciones_de_anuncios.extrae()
 #acciones_de_anuncios.transforma()
 
+reporte_anuncios = Etlrep.EtlAnunciosReporte(etl_anuncio, etl_estadistico_anuncios, etl_campania)
+reporte_anuncios.extrae()
+reporte_anuncios.transforma()
